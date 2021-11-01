@@ -181,7 +181,7 @@ RSpec.describe Api::V1::DnsRecordsController, type: :controller do
         end
 
         it 'returns all dns records with all hostnames' do
-          expect(parsed_body).to eq expected_response
+          expect(parsed_body).to include expected_response
         end
       end
 
@@ -341,6 +341,26 @@ RSpec.describe Api::V1::DnsRecordsController, type: :controller do
   end
 
   describe '#create' do
-    # TODO
+    let(:payload_create) do
+      {
+        dns_records: {
+          ip: "1.1.1.2",
+          hostnames_attributes: [
+            { hostname: "lorem.com"},
+            { hostname: "ipsum.com" },
+            { hostname: "dolor.com" },
+            { hostname: "amet.com" }
+          ]
+        }
+      }
+    end
+
+    before do
+      post(:create, params: payload_create.as_json, as: :json)
+    end
+
+    it 'responds with valid response' do
+      expect(response).to have_http_status(:created)
+    end
   end
 end

@@ -4,8 +4,8 @@ module DnsRecords
   class IndexContract < Dry::Validation::Contract
     params do
       required(:page).value(:integer)
-      optional(:included).value(:string)
-      optional(:excluded).value(:string)
+      optional(:included).value(:array)
+      optional(:excluded).value(:array)
     end
   end
 end
