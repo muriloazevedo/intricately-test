@@ -8,7 +8,14 @@ module Api
 
       # POST /dns_records
       def create
-        # TODO: Implement this action
+        service = DnsRecords::Create.new(dns_records)
+        service.call
+
+        render json: service, status: :created
+      end
+
+      def dns_records
+        params.require(:dns_records).permit(:ip, hostnames_attributes: [:hostname])
       end
     end
   end

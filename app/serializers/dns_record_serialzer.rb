@@ -1,5 +1,5 @@
-class DnsSerializer
-  include FastJsonapi::ObjectSerializer
+class DnsRecordSerializer
+  include JSONAPI::Serializer
 
   set_type :dns
 

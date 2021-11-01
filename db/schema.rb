@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2021_11_01_174630) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "dns_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "ipv4", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "hostnames", force: :cascade do |t|
+    t.string "address", null: false
+    t.uuid "dns_records_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["address"], name: "index_hostnames_on_address", unique: true
+    t.index ["dns_records_id"], name: "index_hostnames_on_dns_records_id"
+  end
 
 end
