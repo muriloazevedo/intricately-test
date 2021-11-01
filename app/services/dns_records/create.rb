@@ -4,7 +4,7 @@ module DnsRecords
     include ::HasContract
     include ::Validations::Model
 
-    serializer_class DnsRecordSerializer
+    serializer_class ::DnsRecordSerializer
     contract_class DnsRecords::CreateContract
 
     def initialize(params)
@@ -19,8 +19,7 @@ module DnsRecords
 
     def dns_record
       contract.values.data[:ipv4] = contract.values.data.delete(:ip)
-      @hostname_attributes = contract.values.data.delete(:hostnames_attributes)
-      byebug
+      @hostnames_attributes = contract.values.data.delete(:hostnames_attributes)
       @dns_record ||= DnsRecord.new(contract.values)
     end
 
@@ -33,9 +32,12 @@ module DnsRecords
     def process
       ActiveRecord::Base.transaction do
         dns_record.save!
+        hostnames_attributes.each do |host|
+          Hostname.create(address: host[:hostname], dns_record: dns_record)
+        end
       end
     end
 
-    attr_reader :dns_record
+    attr_reader :dns_record, :hostnames_attributes
   end
 end

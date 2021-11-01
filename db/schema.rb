@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_174630) do
+ActiveRecord::Schema.define(version: 2021_11_01_193533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_174630) do
     t.string "ipv4", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["ipv4"], name: "index_dns_records_on_ipv4", unique: true
   end
 
   create_table "hostnames", force: :cascade do |t|
