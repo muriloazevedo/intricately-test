@@ -29,11 +29,11 @@ module DnsRecords
     end
 
     def included
-      contract.values[:included]
+      contract.values[:included].split(',').map(&:strip)
     end
 
     def excluded
-      contract.values[:excluded]
+      contract.values[:excluded].split(',').map(&:strip)
     end
 
     def records

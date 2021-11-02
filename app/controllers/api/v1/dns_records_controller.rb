@@ -17,10 +17,11 @@ module Api
 
       def index_params
         params.require(:page)
+        params.permit(:page, :included, :excluded)
       end
 
       def dns_records
-        params.require(:dns_records).permit(:ip, :page, :included, :excluded, hostnames_attributes: [:hostname])
+        params.require(:dns_records).permit(:ip, :page, hostnames_attributes: [:hostname])
       end
 
       def missing_params
