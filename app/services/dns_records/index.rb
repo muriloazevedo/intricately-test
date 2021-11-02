@@ -25,7 +25,9 @@ module DnsRecords
     end
 
     def page
-      0 || contract.values[:page]
+      return 0 if contract.values[:page].nil?
+
+      contract.values[:page]
     end
 
     def included
